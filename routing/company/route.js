@@ -24,7 +24,12 @@ function createDeleteOrder() {
 module.exports.createGetOrders = createGetOrders
 function createGetOrders() {
     return async (ctx) => {
-        ctx.body = await Company.find()
+        if(ctx.session.user.type !== 'admin'){
+            ctx.body = await Company.find({_id: ctx.session.user.companyId}).exec()
+        }
+        else {
+            ctx.body = await Company.find().exec()
+        }
     }
 }
 
@@ -36,22 +41,9 @@ function createGetByIdOrder() {
     }
 }
 
-module.exports.getCompaniesByUser = getCompaniesByUser
-function getCompaniesByUser() {
-    return async (ctx) => {
-        if(cts.session.user.type !== 'admin'){
-          ctx.body = await Company.find({_id: ctx.session.user.companyId}).exec()
-        }
-        else {
-          ctx.body = await Company.find().exec()
-        }
-    }
-}
-
 const router = require('koa-router')()
 
 router
-    .get('/byUser', getCompaniesByUser())
     .get('/', createGetOrders())
     .get('/:id', createGetByIdOrder())
     .post('/', createSaveOrder())
