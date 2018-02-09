@@ -7,7 +7,7 @@ const wss = new WebSocket.Server({port: 8060});
 mongoose.Promise = Promise
 
 app.use(require('koa-bodyparser')())
-app.use(require('./corsMiddleware')(['http://localhost:4200']))
+app.use(require('./corsMiddleware')(['http://localhost:4200','http://kordos.com/']))
 
 wss.on('connection', function connection(ws) {
     ws.on('message', function incoming(message) {
