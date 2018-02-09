@@ -4,9 +4,7 @@ const User = require('../users/model')
 
 
 function createLogout() {
-    console.log('a')
     return async ctx => {
-        console.log('b')
         if (ctx.session && ctx.session.user)
             ctx.body = ctx.session.user
         else
