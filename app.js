@@ -14,16 +14,16 @@ wss.on('connection', function connection(ws) {
     ws.on('message', function incoming(message) {
         console.log('received: %s', message)
     })
-    
+
     ws.send('something')
 })
 
 router.use('/api', require('./routing/test/route').routes())
-
+router.use('/initCookie', require('./routing/initCookie/route').routes())
 app.use(router.routes())
 
 module.exports = (dbUrl) => {
     return mongoose.connect(process.env.MONGODB_URI || dbUrl).then(x => {
-      return app
+        return app
     })
-  }
+}
