@@ -3,30 +3,31 @@ const mongoose = require('mongoose')
 const router = require('koa-router')()
 const WebSocket = require('ws')
 const wss = new WebSocket.Server({ port: 8070 })
+const test = require('./routing/test/route')
 
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
-    console.log('received: %s', message);
-  });
+    console.log('received: %s', message)
+  })
 
-  ws.send('something');
-});
+  ws.send('something')
+})
 
-mongoose.Promise = Promise;
+mongoose.Promise = Promise
 
 router.get('/hello', ctx => {
     ctx.body = {
         Hello: 'World'
-    };
-});
+    }
+})
 
-const app = new Koa();
-app.use(require('koa-bodyparser')());
-
-app.use(router.routes());
+const app = new Koa()
+app.use(require('koa-bodyparser')())
+app.use(router.routes())
+router.use('/api', test.routes())
 
 module.exports = (dbUrl) => {
     return mongoose.connect(process.env.MONGODB_URI || dbUrl).then(x => {
-      return app;
-    });
-  };
+      return app
+    })
+  }
