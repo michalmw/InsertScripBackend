@@ -1,6 +1,6 @@
 const R = require('ramda')
 const bcrypt = require('bcryptjs')
-const User = require('../users/model') 
+const User = require('../users/model')
 
 module.exports.createLogin = createLogin
 function createLogin() {
@@ -20,6 +20,7 @@ function createLogin() {
 
 const router = require('koa-router')()
 
-router.post('/', createLogin())
+router
+    .post('/', createLogin())
 
 module.exports = router
