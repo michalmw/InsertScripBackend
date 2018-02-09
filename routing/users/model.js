@@ -9,7 +9,8 @@ const User = new Schema({
         required: true, type: String
     },
     type: { required: true, type: String, enum: ['user', 'owner', 'admin'] },
-    companyId : { type: Schema.Types.ObjectId, ref: 'Company'}
+    companyId : { type: Schema.Types.ObjectId, ref: 'Company'},
+    gateway : [ { type: Schema.Types.ObjectId, ref: 'Gateway'}]
 },
     { strict: false })
 
