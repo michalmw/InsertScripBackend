@@ -5,7 +5,7 @@ const Message = require('./routing/messages/model')
 
 const users = new Map
 
-const companyUsers = []
+let companyUsers = []
 
 function handler(ws, req) {
     const cookie = cookieparser.parse(req.headers.cookie)
