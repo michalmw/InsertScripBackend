@@ -1,6 +1,8 @@
 const Koa = require('koa')
-
+const mongoose = require('mongoose')
 const router = require('koa-router')()
+
+mongoose.Promise = Promise
 
 router.get('/hello', ctx => {
     ctx.body = {
@@ -13,4 +15,8 @@ app.use(require('koa-bodyparser')())
 
 app.use(router.routes())
 
-app.listen(8080)
+module.exports = (dbUrl) => {
+    return mongoose.connect(process.env.MONGODB_URI || dbUrl).then(x => {
+      return app
+    })
+  };
