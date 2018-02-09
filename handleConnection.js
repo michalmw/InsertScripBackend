@@ -75,10 +75,11 @@ function handleCompanyUser(ws) {
             _id: '$sessionId',
             gateId: { $first: '$gateId' },
             messages: { $push: '$$ROOT' }
-        }).group({
-            _id: '$gateId',
-            rooms: { $push: '$$ROOT' }
         })
+        // .group({
+        //     _id: '$gateId',
+        //     rooms: { $push: '$$ROOT' }
+        // })
         .then(result => {
             ws.send(JSON.stringify({
                 type: 'init',
