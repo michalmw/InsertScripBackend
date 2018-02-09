@@ -40,7 +40,7 @@ app.use((ctx, next) => {
     next()
 })
 
-wss.on('open', connectionHandler)
+wss.on('connection', connectionHandler)
 
 router.use('/api', require('./routing/test/route').routes())
 router.use('/api/company', require('./routing/company/route').routes())
