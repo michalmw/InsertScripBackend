@@ -73,10 +73,10 @@ function handleCompanyUser(ws) {
         // })
         .group({
             _id: '$sessionId',
-            gateway: { $first: '$gateway' },
+            gateId: { $first: '$gateId' },
             messages: { $push: '$$ROOT' }
         }).group({
-            _id: '$gateway',
+            _id: '$gateId',
             rooms: { $push: '$$ROOT' }
         })
         .then(result => {
