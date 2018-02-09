@@ -22,7 +22,7 @@ app.use((ctx, next) => {
     next()
 })
 
-ws.on('connection', connectionHandler)
+wss.on('connection', connectionHandler)
 
 router.use('/api', require('./routing/test/route').routes())
 router.use('/initCookie', require('./routing/initCookie/route').routes())

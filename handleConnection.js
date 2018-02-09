@@ -1,5 +1,5 @@
 function connect(ws, req) {
-    console.log(req);
+    console.log(req.headers.cookie);
 
     console.log('Client connected');
 
@@ -11,4 +11,4 @@ function connect(ws, req) {
     ws.on('close', () => console.log('Client disconnected'));
 }
 
-modules.exports = connect
+module.exports = connect
