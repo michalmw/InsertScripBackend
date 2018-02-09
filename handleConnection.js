@@ -9,8 +9,9 @@ const companies = new Map
 
 function connect(ws, req) {
     const cookie = cookieparser.parse(req.headers.cookie)
-    if (cookie) {
+    if (!cookie) {
         ws.close()
+        return
     }
     const session = JSON.parse(cookie['koa:sess'])
 
