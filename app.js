@@ -11,7 +11,7 @@ app.keys = ['secret o']
 app.use(session(app))
 
 app.use(require('koa-bodyparser')())
-app.use(require('./corsMiddleware')(['http://localhost:4200','http://kordos.com/']))
+app.use(require('./corsMiddleware')(['http://localhost:4200','http://kordos.com']))
 
 app.use((ctx, next) => {
     ctx.session.v = ctx.session.v || 0
