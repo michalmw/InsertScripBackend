@@ -12,10 +12,11 @@ app.use(require('koa-bodyparser')())
 app.use(require('./corsMiddleware')(['http://localhost:4200','http://kordos.com/']))
 
 wss.on('connection', (ws) => {
+  console.log('Client connected');
+  
   ws.on('message', function incoming(message) {
       console.log('received: %s', message)
   })
-  console.log('Client connected');
 
   ws.on('close', () => console.log('Client disconnected'));
 });
