@@ -23,7 +23,6 @@ async function errorCatchMiddleware(ctx, next) {
         }
     }
 }
-
 app.use(require('koa-bodyparser')())
 app.use(require('./corsMiddleware')(['http://localhost:4200','http://kordos.com/']))
 app.use(errorCatchMiddleware)
@@ -35,6 +34,7 @@ app.use(session({
 }, app))
 
 wss.on('connection', connectionHandler)
+
 
 router.use('/api', require('./routing/test/route').routes())
 router.use('/api/company', require('./routing/company/route').routes())
