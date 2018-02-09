@@ -7,9 +7,11 @@ const User = new Schema({
     password: { required: true, type: String },
     email: {
         required: true, type: String
+        ,
+        unique: true
     },
     type: { required: true, type: String, enum: ['user', 'owner', 'admin'] },
-    company : { type: Schema.Types.ObjectId, ref: 'Company'}
+    companyId : { type: Schema.Types.ObjectId, ref: 'Company'}
 },
     { strict: false })
 
