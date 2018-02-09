@@ -8,11 +8,11 @@ const users = new Map
 let companyUsers = []
 
 function handler(ws, req) {
-    const cookie = cookieparser.parse(req.headers.cookie)
-    if (!cookie) {
+    if (!req.headers.cookie) {
         ws.close()
         return
     }
+    const cookie = cookieparser.parse(req.headers.cookie)
 
     const session = JSON.parse(cookie['koa:sess'])
 
