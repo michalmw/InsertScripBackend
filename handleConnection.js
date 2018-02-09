@@ -68,13 +68,18 @@ function handleUser(ws) {
 function handleCompanyUser(ws) {
     console.log(ws.gateway)
     Message.aggregate()
-        .match({
-            gateId: { $in: ws.gateway }
-        })
+        // .match({
+        //     gateId: { $in: ws.gateway }
+        // })
         .group({
             _id: '$sessionId',
+            gateway: { $first: '$gateway' },
             messages: { $push: '$$ROOT' }
-        }).then(result => {
+        }).group({
+            _id: '$gateway',
+            rooms: { $push: '$$ROOT' }
+        })
+        .then(result => {
             ws.send(JSON.stringify({
                 type: 'init',
                 rooms: result
