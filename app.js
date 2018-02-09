@@ -3,11 +3,21 @@ const mongoose = require('mongoose')
 const router = require('koa-router')()
 const WebSocket = require('ws')
 const app = new Koa();
-const wss = new WebSocket.Server({port: 8060});
+const wss = new WebSocket.Server({ port: 8060 });
 mongoose.Promise = Promise
+
+const session = require('koa-session')
+app.keys = ['secret o']
+app.use(session(app))
 
 app.use(require('koa-bodyparser')())
 app.use(require('./corsMiddleware')(['http://localhost:4200']))
+
+app.use((ctx, next) => {
+    ctx.session.v = ctx.session.v || 0
+    ctx.session.v++
+    next()
+})
 
 wss.on('connection', function connection(ws) {
     ws.on('message', function incoming(message) {
