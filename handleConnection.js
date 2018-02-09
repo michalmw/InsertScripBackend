@@ -49,7 +49,7 @@ function handleUser(ws) {
             gateId: ws.gateId,
             sessionId: ws.sessionId,
             message: message,
-            type: 'fromUser'
+            type: 'fromClient'
         }
 
         new Message(obj).save()
@@ -94,9 +94,9 @@ function handleCompanyUser(ws) {
 
         new Message(messageObj).save()
 
-        const gate = (await Message.findOne({ sesionId: message.sesionId })).gateId
+        // const gate = (await Message.findOne({ sesionId: message.sesionId })).gateId
 
-        for (const userWs of filterGates([gate])) {
+        for (const userWs of filterGates([messageObj.gateId])) {
             userWs.send(JSON.stringify(messageObj))
             console.log(`sended ${messageObj} to userId=`, userWs.userId)
         }
