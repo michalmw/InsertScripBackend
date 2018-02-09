@@ -9,6 +9,9 @@ const companies = new Map
 
 function connect(ws, req) {
     const cookie = cookieparser.parse(req.headers.cookie)
+    if (cookie) {
+        ws.close()
+    }
     const session = JSON.parse(cookie['koa:sess'])
 
     if (session.user && (session.user.type === 'user' || session.user.type === 'owner')) {
