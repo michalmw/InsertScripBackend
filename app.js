@@ -4,7 +4,7 @@ const router = require('koa-router')()
 const WebSocket = require('ws')
 const http = require('http')
 const app = new Koa();
-const server = http.createServer(app.callback());
+const server = http.createServer(app.callback()).listen('8070');
 const wss = new WebSocket.Server({ server });
 mongoose.Promise = Promise
 
