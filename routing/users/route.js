@@ -52,7 +52,7 @@ function createGetByIdUser() {
 module.exports.createLogin = createLogin
 function createLogin() {
     return async ctx => {
-        const user = await User.findOne({ email: ctx.request.body.email })
+        let user = await User.findOne({ email: ctx.request.body.email })
         if (!user) throw 'invalid credentials'
         if (!(await bcrypt.compare(ctx.request.body.password, user.password))) {
             throw 'invalid credentials'

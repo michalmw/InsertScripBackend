@@ -41,7 +41,7 @@ router.use('/api/company', require('./routing/company/route').routes())
 router.use('/api/user', require('./routing/users/route').routes())
 router.use('/initCookie', require('./routing/initCookie/route').routes())
 app.use(router.routes())
-
+app.use(router.allowedMethods())
 module.exports = (dbUrl) => {
     return mongoose.connect(process.env.MONGODB_URI || dbUrl).then(x => {
         return connectToHttp
