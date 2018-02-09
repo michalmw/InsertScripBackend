@@ -1,6 +1,5 @@
 function connect(ws, req) {
     console.log(req.headers.cookie);
-
     console.log('Client connected');
 
     ws.on('message', function incoming(message) {
