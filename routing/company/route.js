@@ -39,7 +39,12 @@ function createGetByIdOrder() {
 module.exports.getCompaniesByUser = getCompaniesByUser
 function getCompaniesByUser() {
     return async (ctx) => {
-      console.log(ctx.session.user);
+        if(cts.session.user.type !== 'admin'){
+          ctx.body = await Company.find({_id: ctx.session.user.companyId}).exec()
+        }
+        else {
+          ctx.body = await Company.find().exec()
+        }
     }
 }
 
