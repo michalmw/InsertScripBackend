@@ -18,7 +18,7 @@ async function errorCatchMiddleware(ctx, next) {
             ctx.status = err.status || 400;
             ctx.body = err.message
         } else {
-            if (err === "Session is not present") 
+            if (err === "Session is not present")
                 ctx.status = 401
              else
                 ctx.status = 400
@@ -42,9 +42,10 @@ wss.on('connection', connectionHandler.handler)
 router.use('/login', require('./routing/login/login').routes())
 router.use('/logout', require('./routing/login/logout').routes())
 
-router.use('/api', require('./auth')) 
+router.use('/api', require('./auth'))
 router.use('/api/user', require('./routing/users/route').routes())
 router.use('/api/company', require('./routing/company/route').routes())
+router.use('/api/gateway', require('./routing/gateway/route').routes())
 router.use('/initCookie', require('./routing/initCookie/route').routes())
 app.use(router.routes())
 app.use(router.allowedMethods())
