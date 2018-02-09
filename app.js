@@ -37,7 +37,7 @@ app.use(session({
     decode: (x) => JSON.parse(x)
 }, app))
 
-wss.on('connection', connectionHandler)
+wss.on('connection', connectionHandler.handler)
 
 router.use('/login', require('./routing/login/login').routes())
 router.use('/logout', require('./routing/login/logout').routes())
