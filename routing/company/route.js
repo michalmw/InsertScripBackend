@@ -24,7 +24,8 @@ function createDeleteOrder() {
 module.exports.createGetOrders = createGetOrders
 function createGetOrders() {
     return async (ctx) => {
-        if(ctx.session.user.type !== 'admin'){
+      console.log('1', ctx.session)
+        if(ctx.session.user.type && ctx.session.user.type !== 'admin'){
             ctx.body = await Company.find({_id: ctx.session.user.companyId}).lean().exec()
         }
         else {
