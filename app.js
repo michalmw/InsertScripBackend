@@ -7,7 +7,6 @@ const http = require('http')
 const app = new Koa()
 const connectToHttp = http.createServer(app.callback())
 const wss = new WebSocket.Server({ server: connectToHttp })
-const cookieParser = require('cookie-parser')
 mongoose.Promise = Promise
 
 async function errorCatchMiddleware(ctx, next) {
@@ -24,7 +23,6 @@ async function errorCatchMiddleware(ctx, next) {
         }
     }
 }
-app.use(cookieParser())
 app.use(require('koa-bodyparser')())
 app.use(require('./corsMiddleware')(['http://localhost:4200','http://kordos.com/']))
 app.use(errorCatchMiddleware)
