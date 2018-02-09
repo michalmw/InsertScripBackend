@@ -4,7 +4,7 @@ const router = require('koa-router')()
 const WebSocket = require('ws')
 const http = require('http')
 const app = new Koa()
-const connectToHttp = http.createServer(app.callback()).listen(8070)
+const connectToHttp = http.createServer(app.callback())
 const wss = new WebSocket.Server({ server: connectToHttp })
 mongoose.Promise = Promise
 
@@ -13,7 +13,7 @@ app.use(require('./corsMiddleware')(['http://localhost:4200','http://kordos.com/
 
 wss.on('connection', (ws) => {
   console.log('Client connected');
-  
+
   ws.on('message', function incoming(message) {
       console.log('received: %s', message)
   })
