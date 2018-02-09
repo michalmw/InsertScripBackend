@@ -14,9 +14,9 @@ wss.on('connection', function connection(ws) {
 
 mongoose.Promise = Promise;
 
-router.get('/hello', ctx => {
+router.get('/test', ctx => {
     ctx.body = {
-        Hello: 'World'
+        Hello: 'test'
     };
 });
 
