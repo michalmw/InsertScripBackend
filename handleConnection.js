@@ -86,7 +86,7 @@ function intersects(arr1, arr2) {
     return arr1.some(x => arr2.includes(x))
 }
 
-function filterGates(gate) {
+function filterGates(gates) {
     return companyUsers.filter(ws => intersects(ws.gates, gates))
 }
 
