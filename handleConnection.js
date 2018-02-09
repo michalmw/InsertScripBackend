@@ -35,12 +35,31 @@ function handler(ws, req) {
 
 
 function handleUser(ws) {
+
+    ws.on('connect', () => {
+        Message.aggregate()
+            .match({
+                gateId: { $in: ws.gates }
+            })
+            .group({
+                _id: '$sessionId',
+                messages: { $push: '$$ROOT' }
+            }).then(result => {
+                ws.send(JSON.stringify({
+                    type: 'init',
+                    rooms: result
+                }))
+            })
+    })
+
     ws.on('message', message => {
         const obj = {
             gateId: ws.gateId,
             sessionId: ws.sessionId,
-            message
+            message: message,
+            type: 'fromUser'
         }
+
         new Message(obj).save()
         for (const userWs of filterGates([ws.gateId])) {
             userWs.send(JSON.stringify(obj))
@@ -56,9 +75,12 @@ function handleUser(ws) {
 
 function handleCompanyUser(ws) {
 
+    ws.onConnect
+
     ws.on('message', async message => {
 
         const messageObj = JSON.parse(message)
+        messageObj.type = 'fromUser'
 
         new Message(messageObj).save()
 
@@ -91,6 +113,5 @@ function filterGates(gates) {
 }
 
 module.exports.handler = handler
-
 
 module.exports.logedInUsers = () => new Set(users.keys)
