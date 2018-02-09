@@ -2,6 +2,8 @@
 const url = require('url')
 const cookieparser = require("cookie")
 
+const Message = require('./routing/messages/model')
+
 const users = new Map
 const companies = new Map
 
@@ -14,27 +16,26 @@ function connect(ws, req) {
             companies.set([ws])
         }
         company.push(ws)
+        handleCompanyUser(ws, session.user.companyId)
     } else {
         const companyId = url.parse(req.url, true).query.companyId
         users.set(session.id, ws)
+        handleUser(ws, companyId, session.id)
     }
-
-    ws.on('message', message => {
-        console.log('received: %s', message)
-        ws.send('something')
-    })
-
-    ws.on('close', () => console.log('Client disconnected'));
 }
 
 function handleUser(ws, companyId, sesionId) {
 
     ws.on('message', message => {
-        const company = companies.get(companyId)
-        for (const companyUser of company) {
-            companyUser.send({
-
-            })
+        const obj = {
+            companyId,
+            sessionId,
+            message
+        }
+        const messageStr = companyUser.send(JSON.stringify(obj))
+        new Message(obj).save()
+        for (const companyUser of companies.get(companyId) || []) {
+            companyUser.send(messageStr)
         }
     })
 
@@ -47,6 +48,11 @@ function handleUser(ws, companyId, sesionId) {
 function handleCompanyUser(ws, companyId) {
 
     ws.on('message', message => {
+
+        const messageObj = JSON.parse(message)
+
+        new Message(Object.assign(messageObj, { companyId })).save()
+
         const company = companies.get(companyId)
         for (const companyUser of company) {
             if (companyUser !== ws) {
@@ -55,7 +61,7 @@ function handleCompanyUser(ws, companyId) {
         }
         const user = users.get(message.sesionId)
         if (user) {
-            user.send(message.message)
+            user.send(messageObj.message)
         }
     })
 
