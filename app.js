@@ -1,8 +1,8 @@
 const Koa = require('koa')
 const mongoose = require('mongoose')
 const router = require('koa-router')()
-const WebSocket = require('ws');
-const wss = new WebSocket.Server({ port: 8070 });
+const WebSocket = require('ws')
+const wss = new WebSocket.Server({ port: 8070 })
 
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
@@ -12,7 +12,7 @@ wss.on('connection', function connection(ws) {
   ws.send('something');
 });
 
-mongoose.Promise = Promise
+mongoose.Promise = Promise;
 
 router.get('/hello', ctx => {
     ctx.body = {
@@ -27,6 +27,6 @@ app.use(router.routes());
 
 module.exports = (dbUrl) => {
     return mongoose.connect(process.env.MONGODB_URI || dbUrl).then(x => {
-      return app
-    })
+      return app;
+    });
   };
