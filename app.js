@@ -37,8 +37,8 @@ app.use(session({
 wss.on('connection', connectionHandler)
 
 
-router.use('/login', require('./routing/login/route').routes())
-
+router.use('/login', require('./routing/login/login').routes()) 
+router.use('/logout', require('./routing/login/logout').routes()) 
 
 router.use('/api', require('./auth'))
 router.use('/api/user', require('./routing/users/route').routes())
