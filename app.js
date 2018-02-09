@@ -1,8 +1,6 @@
 const Koa = require('koa')
 const mongoose = require('mongoose')
 const router = require('koa-router')()
-const Koa = require('koa');
-const router = require('koa-router')();
 const WebSocket = require('ws');
 const wss = new WebSocket.Server({ port: 8070 });
 
