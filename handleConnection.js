@@ -36,6 +36,14 @@ function handler(ws, req) {
 
 function handleUser(ws) {
 
+    Message.find({ sessionId: ws.sessionId })
+        .lean().then(res => {
+            ws.send(JSON.stringify({
+                type: 'init',
+                messages: res
+            }))
+        })
+
     ws.on('message', message => {
         const obj = {
             gateId: ws.gateId,
@@ -59,21 +67,19 @@ function handleUser(ws) {
 
 function handleCompanyUser(ws) {
 
-    ws.on('connect', () => {
-        Message.aggregate()
-            .match({
-                gateId: { $in: ws.gates }
-            })
-            .group({
-                _id: '$sessionId',
-                messages: { $push: '$$ROOT' }
-            }).then(result => {
-                ws.send(JSON.stringify({
-                    type: 'init',
-                    rooms: result
-                }))
-            })
-    })
+    Message.aggregate()
+        .match({
+            gateId: { $in: ws.gates }
+        })
+        .group({
+            _id: '$sessionId',
+            messages: { $push: '$$ROOT' }
+        }).then(result => {
+            ws.send(JSON.stringify({
+                type: 'init',
+                rooms: result
+            }))
+        })
 
     ws.on('message', async message => {
 
