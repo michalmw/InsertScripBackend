@@ -8,7 +8,7 @@ function connect(ws, req) {
 
     ws.on('message', function incoming(message) {
         console.log('received: %s', message)
-        ws.send('test')
+        ws.send(JSON.parse('test'))
     })
 
     ws.on('close', () => console.log('Client disconnected'));
