@@ -23,15 +23,13 @@ function handler(ws, req) {
         }
         ws.gates = session.user.gateway
         companyUsers.push(ws)
-        handleCompanyUser(ws, session.user.companyId)
-        console.log('company User joined companyId=', companyId)
+        handleCompanyUser(ws)
     } else {
         const gateId = url.parse(req.url, true).query.gateId
         users.set(session.id, ws)
         ws.sessionId = session.id
         ws.gateId = gateId
         handleUser(ws, gateId)
-        console.log('user joined companyId=', companyId)
         console.log('sessionId=', session.id)
     }
 }
@@ -39,8 +37,8 @@ function handler(ws, req) {
 function handleUser(ws) {
     ws.on('message', message => {
         const obj = {
-            companyId,
-            sessionId,
+            gateId: ws.gateId,
+            sessionId: ws.sessionId,
             message
         }
         new Message(obj).save()
