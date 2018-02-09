@@ -36,13 +36,20 @@ function createGetByIdOrder() {
     }
 }
 
+module.exports.getCompaniesByUser = getCompaniesByUser
+function getCompaniesByUser() {
+    return async (ctx) => {
+      console.log(ctx.session.user);
+    }
+}
+
 const router = require('koa-router')()
 
 router
+    .get('/byUser', getCompaniesByUser())
     .get('/', createGetOrders())
     .get('/:id', createGetByIdOrder())
     .post('/', createSaveOrder())
     .put('/:id', createUpateOrder())
     .delete('/:id', createDeleteOrder())
 module.exports = router
-
