@@ -83,7 +83,7 @@ function handleCompanyUser(ws) {
         .then(result => {
             ws.send(JSON.stringify({
                 type: 'init',
-                gateways: result
+                rooms: result
             }))
         })
 
