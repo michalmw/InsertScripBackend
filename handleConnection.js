@@ -21,7 +21,8 @@ function handler(ws, req) {
         if (!company) {
             companies.set(session.user.companyId, [ws])
         }
-        companyUsers.push(ws.getes = session.user.gates)
+        ws.gates = session.user.gateway
+        companyUsers.push(ws)
         handleCompanyUser(ws, session.user.companyId)
         console.log('company User joined companyId=', companyId)
     } else {
@@ -86,15 +87,6 @@ function intersects(arr1, arr2) {
 function filterGates(gate) {
     return companyUsers.filter(ws => intersects(ws.gates, gates))
 }
-
-function messageToGates(message, gates) {
-    const sendTo = companyUsers.filter(ws => intersects(ws.gates, gates))
-    for (const s of sendTo) {
-        s.send(message)
-    }
-}
-
-
 
 module.exports.handler = handler
 
