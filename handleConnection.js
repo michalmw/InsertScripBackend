@@ -10,10 +10,11 @@ const companies = new Map
 function connect(ws, req) {
     const cookie = cookieparser.parse(req.headers.cookie)
     const session = JSON.parse(cookie['koa:sess'])
+
     if (session.user && (session.user.type === 'user' || session.user.type === 'owner')) {
         const company = companies.get(session.user.companyId)
         if (!company) {
-            companies.set([ws])
+            companies.set(session.user.companyId, [ws])
         }
         company.push(ws)
         handleCompanyUser(ws, session.user.companyId)
@@ -32,7 +33,7 @@ function handleUser(ws, companyId, sesionId) {
             sessionId,
             message
         }
-        const messageStr = companyUser.send(JSON.stringify(obj))
+        const messageStr = JSON.stringify(obj)
         new Message(obj).save()
         for (const companyUser of companies.get(companyId) || []) {
             companyUser.send(messageStr)
@@ -49,17 +50,18 @@ function handleCompanyUser(ws, companyId) {
 
     ws.on('message', message => {
 
-        const messageObj = JSON.parse(message)
+        const messageObj = Object.assign(JSON.parse(message), { companyId })
+        Object.assign({}, { a: 'asd' })
 
-        new Message(Object.assign(messageObj, { companyId })).save()
+        new Message(messageObj).save()
 
-        const company = companies.get(companyId)
+        const company = companies.get(companyId) || []
         for (const companyUser of company) {
             if (companyUser !== ws) {
-                companyUser.send(message)
+                companyUser.send(JSON.stringify(messageObj))
             }
         }
-        const user = users.get(message.sesionId)
+        const user = users.get(messageObj.sesionId)
         if (user) {
             user.send(messageObj.message)
         }
