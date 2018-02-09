@@ -17,13 +17,11 @@ function handler(ws, req) {
     const session = JSON.parse(cookie['koa:sess'])
 
     if (session.user && (session.user.type === 'user' || session.user.type === 'owner')) {
-        const company = companies.get(session.user.companyId)
-        if (!company) {
-            companies.set(session.user.companyId, [ws])
-        }
         ws.gates = session.user.gateway
+        ws.userId = session.user._id
         companyUsers.push(ws)
         handleCompanyUser(ws)
+        console.log('company user connected')
     } else {
         const gateId = url.parse(req.url, true).query.gateId
         users.set(session.id, ws)
@@ -34,6 +32,8 @@ function handler(ws, req) {
     }
 }
 
+
+
 function handleUser(ws) {
     ws.on('message', message => {
         const obj = {
@@ -42,8 +42,10 @@ function handleUser(ws) {
             message
         }
         new Message(obj).save()
-        for (const userWs of filterGates([ws.gateId]))
+        for (const userWs of filterGates([ws.gateId])) {
             userWs.send(JSON.stringify(obj))
+            console.log('sended to userId=', userWs.userId)
+        }
     })
 
     ws.on('close', () => {
@@ -64,11 +66,13 @@ function handleCompanyUser(ws) {
 
         for (const userWs of filterGates([gate])) {
             userWs.send(JSON.stringify(messageObj))
+            console.log(`sended ${messageObj} to userId=`, userWs.userId)
         }
 
         const user = users.get(messageObj.sesionId)
         if (user) {
             user.send(messageObj.message)
+            console.log(`sended ${messageObj.message} to userId=`, user.sesionId)
         }
     })
 
