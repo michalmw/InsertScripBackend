@@ -3,10 +3,10 @@ const Schema = mongoose.Schema
 const ObjectId = mongoose.Types.ObjectId
 
 const Message = new Schema({
-    company: { type: Schema.Types.ObjectId, ref: 'Company'},
-    createDate: {type: Date, default: Date.now},
+    companyId: { type: Schema.Types.ObjectId, ref: 'Company'},
+    timestamp: {type: Date, default: Date.now},
     sessionId: {type: String, required: true},
-    text: { required: true, type: String }
+    message: { required: true, type: String }
 },
     { strict: false })
 
