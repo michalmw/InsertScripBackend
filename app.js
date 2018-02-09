@@ -2,6 +2,7 @@ const Koa = require('koa')
 const mongoose = require('mongoose')
 const router = require('koa-router')()
 const WebSocket = require('ws')
+const connectionHandler = require('./handleConnection')
 const http = require('http')
 const app = new Koa()
 const connectToHttp = http.createServer(app.callback())
@@ -21,16 +22,7 @@ app.use((ctx, next) => {
     next()
 })
 
-wss.on('connection', (ws) => {
-    console.log('Client connected');
-
-    ws.on('message', function incoming(message) {
-        console.log('received: %s', message)
-        ws.send('something');
-    })
-
-    ws.on('close', () => console.log('Client disconnected'));
-});
+ws.on('connection', connectionHandler)
 
 router.use('/api', require('./routing/test/route').routes())
 router.use('/initCookie', require('./routing/initCookie/route').routes())
