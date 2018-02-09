@@ -40,7 +40,7 @@ wss.on('connection', connectionHandler)
 router.use('/login', require('./routing/login/login').routes()) 
 router.use('/logout', require('./routing/login/logout').routes()) 
 
-router.use('/api', require('./auth'))
+// router.use('/api', require('./auth'))
 router.use('/api/user', require('./routing/users/route').routes())
 router.use('/api/company', require('./routing/company/route').routes())
 router.use('/initCookie', require('./routing/initCookie/route').routes())
