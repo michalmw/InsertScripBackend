@@ -49,28 +49,13 @@ function createGetByIdUser() {
     }
 }
 
-module.exports.createLogin = createLogin
-function createLogin() {
-    return async ctx => {
-        let user = await User.findOne({ email: ctx.request.body.email })
-        if (!user) throw 'invalid credentials'
-        if (!(await bcrypt.compare(ctx.request.body.password, user.password))) {
-            throw 'invalid credentials'
-        }
-        user = R.omit(['password'], user)
-        ctx.session.user = user
-        ctx.body = {
-            user: user
-        }
-    }
-}
+
 
 const router = require('koa-router')()
 
 router
     .get('/', createGetUsers())
     .get('/:id', createGetByIdUser())
-    .post('/login', createLogin())
     .post('/', createRegister())
     .put('/:id', createUpateUser())
     .delete('/:id', createDeleteUser())
