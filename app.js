@@ -29,16 +29,10 @@ app.use(require('./corsMiddleware')(['http://localhost:4200','http://kordos.com/
 app.use(errorCatchMiddleware)
 const session = require('koa-session')
 app.keys = ['secret o']
-app.use(session(app))
-
-app.use(require('koa-bodyparser')())
-app.use(require('./corsMiddleware')(['http://localhost:4200', 'http://kordos.com']))
-
-app.use((ctx, next) => {
-    ctx.session.v = ctx.session.v || 0
-    ctx.session.v++
-    next()
-})
+app.use(session({
+    encode: (x) => JSON.stringify(x),
+    decode: (x) => JSON.parse(x)
+}, app))
 
 wss.on('connection', connectionHandler)
 
