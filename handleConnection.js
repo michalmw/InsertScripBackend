@@ -17,7 +17,7 @@ function handler(ws, req) {
     const session = JSON.parse(cookie['koa:sess'])
 
     if (session.user && (session.user.type === 'user' || session.user.type === 'owner')) {
-        ws.gates = session.user.gateway
+        ws.gateway = session.user.gateway
         ws.userId = session.user._id
         companyUsers.push(ws)
         handleCompanyUser(ws)
@@ -66,10 +66,10 @@ function handleUser(ws) {
 
 
 function handleCompanyUser(ws) {
-
+    console.log(ws.gateway)
     Message.aggregate()
         .match({
-            gateId: { $in: ws.gates }
+            gateId: { $in: ws.gateway }
         })
         .group({
             _id: '$sessionId',
