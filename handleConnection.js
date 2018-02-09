@@ -1,7 +1,10 @@
 function connect(ws, req) {
-    console.log(req.headers.cookie);
+    console.log('test on open');
 
-    console.log('Client connected');
+    ws.on('connection', function connected(message) {
+        console.log(req.headers.cookie);
+        console.log('Client connected');
+    })
 
     ws.on('message', function incoming(message) {
         console.log('received: %s', message)
