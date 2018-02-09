@@ -2,13 +2,12 @@ const Koa = require('koa')
 const mongoose = require('mongoose')
 const router = require('koa-router')()
 const WebSocket = require('ws')
-const http = require('http')
 const app = new Koa();
-const server = http.createServer(app.callback());
-const wss = new WebSocket.Server({ server });
+const wss = new WebSocket.Server({port: 8060});
 mongoose.Promise = Promise
 
 app.use(require('koa-bodyparser')())
+app.use(require('./corsMiddleware')(['http://localhost:4200']))
 
 wss.on('connection', function connection(ws) {
     ws.on('message', function incoming(message) {
