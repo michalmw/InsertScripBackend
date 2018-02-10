@@ -2150,11 +2150,10 @@ term-size@^1.2.0:
   dependencies:
     execa "^0.7.0"
 
-<<<<<<< HEAD
 text-encoding@^0.6.4:
   version "0.6.4"
   resolved "https://registry.yarnpkg.com/text-encoding/-/text-encoding-0.6.4.tgz#e399a982257a276dae428bb92845cb71bdc26d19"
-=======
+
 thenify-all@^1.0.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/thenify-all/-/thenify-all-1.6.0.tgz#1a1918d402d8fc3f98fbf234db0bcc8cc10e9726"
@@ -2166,7 +2165,6 @@ thenify-all@^1.0.0:
   resolved "https://registry.yarnpkg.com/thenify/-/thenify-3.3.0.tgz#e69e38a1babe969b0108207978b9f62b88604839"
   dependencies:
     any-promise "^1.0.0"
->>>>>>> a8309cc45b3e2b2b025df803c78faa802028982f
 
 through@2, through@~2.3, through@~2.3.1:
   version "2.3.8"
