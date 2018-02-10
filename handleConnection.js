@@ -99,10 +99,11 @@ function handleUser(ws) {
 function handleCompanyUser(ws) {
     Message.aggregate()
         .match({
-            gateId: { $in: ws.gateway.map(ObjectId) }
+            gateId: { $in: ws.gateway.map(ObjectId) },
+            active: !false
         })
         .group({
-            _id: '$sessionId',
+            _id: '$sessionId', 
             gateId: { $first: '$gateId' },
             messages: { $push: '$$ROOT' }
         })
