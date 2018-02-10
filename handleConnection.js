@@ -129,7 +129,7 @@ function handleCompanyUser(ws) {
 
         const user = users.get(messageObj.sessionId)
         if (user) {
-            user.send(messageObj.message)
+            user.send(JSON.stringify(messageObj))
             console.log(`sended ${messageObj.message} to userId=`, user.sessionId)
         }
     })
