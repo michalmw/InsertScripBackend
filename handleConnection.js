@@ -87,7 +87,7 @@ function handleCompanyUser(ws) {
         // })
         .then(result => {
           for(let i = 0; i < result.length; i++) {
-            result[i].name = 'ładna nazwa'
+            result[i].name = i+1
           }
             ws.send(JSON.stringify({
                 type: 'init',
