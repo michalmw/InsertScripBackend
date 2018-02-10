@@ -26,7 +26,11 @@ function createGetOrders() {
     return async (ctx) => {
       console.log('1', ctx.session.user.type)
         if(ctx.session.user.type && ctx.session.user.type !== 'admin'){
-            ctx.body = await Company.findById(ctx.session.user.companyId).lean().exec()
+          let tab = []
+            ctx.body = await Company.findById(ctx.session.user.companyId).lean().exec().then(result => {
+              tab.push(result)
+              return tab
+            })
         }
         else {
             ctx.body = await Company.find().lean().exec()
