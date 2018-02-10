@@ -28,7 +28,7 @@ async function errorCatchMiddleware(ctx, next) {
 }
 
 app.use(require('koa-bodyparser')())
-app.use(require('./corsMiddleware')(['http://localhost:4200', 'http://kordos.com', 'http://www.kordos.com', 'https://test-f801a.firebaseapp.com', 'https://www.test-f801a.firebaseapp.com']))
+app.use(require('./corsMiddleware')(['http://localhost:4200', 'http://kordos.com', 'http://www.kordos.com', 'https://test-f801a.firebaseapp.com', 'https://www.test-f801a.firebaseapp.com','https://includescript-8779f.firebaseapp.com']))
 app.use(errorCatchMiddleware)
 const session = require('koa-session')
 app.keys = ['secret o']
