@@ -8,7 +8,7 @@ cron.schedule('0 * * * *', function(){
       _id: '$sessionId',
       maxDate: {$max: '$timestamp'}
     },
-  ).match({ maxDate: { $gt: Date.now() - maxDate}})
+  ).match({ maxDate: { $gt: maxDate + 900000 }})
   .then(messages => {
     list.forEach(message => {
       Messages.findByIdAndRemove(message.sessionId)
