@@ -49,6 +49,21 @@ function handleUser(ws) {
             }))
         })
 
+        if(companyUsers.find(x => x.gateway.indexOf(ws.gateId) !== -1)){
+            const obj = {
+                type: 'online',
+                online: true
+            }
+            ws.send(JSON.stringify(obj))
+        }else{
+            const obj = {
+                type: 'online',
+                online: false
+            }
+            ws.send(JSON.stringify(obj))
+        }
+    
+
     ws.on('message', async message => {
         let gatewayName = Gateway.findById(ws.gateId).lean().exec()
         console.log('test robert', gatewayName);
