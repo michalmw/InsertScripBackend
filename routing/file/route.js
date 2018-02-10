@@ -13,7 +13,7 @@ function createSaveOrder() {
         obj.sessionId = ctx.session.id
         obj.type = ctx.request.body.type
         obj.name = ctx.request.body.name
-        obj.gateId = message.gateId
+        obj.gateId = ctx.request.body.gateId
         obj.url = 'https://zniesmaczonyzbyszek.herokuapp.com/' + ctx.request.body.name
 
         new Message.save(obj)
