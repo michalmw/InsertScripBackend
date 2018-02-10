@@ -81,7 +81,6 @@ function handleUser(ws) {
 
 
 function handleCompanyUser(ws) {
-    // console.log(ws.gateway)
     Message.aggregate()
         .match({
             gateId: { $in: ws.gateway.map(ObjectId) }
@@ -91,10 +90,6 @@ function handleCompanyUser(ws) {
             gateId: { $first: '$gateId' },
             messages: { $push: '$$ROOT' }
         })
-        // .group({
-        //     _id: '$gateId',
-        //     rooms: { $push: '$$ROOT' }
-        // })
         .then(result => {
             for (const res of result) {
                 res.name = res._id
