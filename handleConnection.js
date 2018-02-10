@@ -8,6 +8,7 @@ const users = new Map()
 
 let companyUsers = []
 
+let ids = 0
 function handler(ws, req) {
     if (!req.headers.cookie) {
         ws.close()
@@ -51,7 +52,7 @@ function handleUser(ws) {
 
     ws.on('message', async message => {
         console.log('test Robert', ws);
-        let gatewayName = Gateway.findById(ws.gateId).lean().exec()
+        let gatewayName = await Gateway.findById(ws.gateId).lean().exec()
         const obj = {
             gateId: ws.gateId,
             sessionId: ws.sessionId,
@@ -60,9 +61,10 @@ function handleUser(ws) {
             type: 'fromClient',
             timestamp: new Date()
         }
+
         let toSend = obj
         if (!(await Message.findOne({ sessionId: ws.sessionId }))) {
-            toSend = Object.assign(obj, { type: 'newRoom' })
+            toSend = Object.assign(obj, { type: 'newRoom', name: ++ids })
         }
 
         new Message(obj).save()
@@ -94,8 +96,8 @@ function handleCompanyUser(ws) {
         //     rooms: { $push: '$$ROOT' }
         // })
         .then(result => {
-            for (let i = 0; i < result.length; i++) {
-                result[i].name = i + 1
+            for (const res of result) {
+                res.name = ++ids
             }
             ws.send(JSON.stringify({
                 type: 'init',
@@ -120,8 +122,6 @@ function handleCompanyUser(ws) {
         messageObj.type = 'fromUser'
 
         new Message(messageObj).save()
-
-        // const gate = (await Message.findOne({ sesionId: message.sesionId })).gateId
 
         for (const userWs of filterGates([messageObj.gateId])) {
             userWs.send(JSON.stringify(messageObj))
