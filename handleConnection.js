@@ -74,13 +74,13 @@ function handleUser(ws) {
             sessionId: ws.sessionId,
             gateName: (gatewayName.name || 'brak nazwy'),
             message: message,
+            name: ws.sessionId,
             type: 'fromClient',
             timestamp: new Date()
         }
 
-        let toSend = obj
         if (!(await Message.findOne({ sessionId: ws.sessionId }))) {
-            toSend = Object.assign(obj, { type: 'newRoom', name: ws.sessionId })
+            toSend = Object.assign(obj, { type: 'newRoom' })
         }
 
         new Message(obj).save()
