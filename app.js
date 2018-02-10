@@ -28,7 +28,7 @@ async function errorCatchMiddleware(ctx, next) {
 }
 
 app.use(require('koa-bodyparser')())
-app.use(require('./corsMiddleware')(['http://localhost:4200', 'http://kordos.com']))
+app.use(require('./corsMiddleware')(['http://localhost:4200', 'http://kordos.com', 'http://www.kordos.com']))
 app.use(errorCatchMiddleware)
 const session = require('koa-session')
 app.keys = ['secret o']
@@ -42,10 +42,11 @@ wss.on('connection', connectionHandler.handler)
 router.use('/login', require('./routing/login/login').routes())
 router.use('/logout', require('./routing/login/logout').routes())
 
-router.use('/api', require('./auth'))
+// router.use('/api', require('./auth'))
 router.use('/api/user', require('./routing/users/route').routes())
 router.use('/api/company', require('./routing/company/route').routes())
 router.use('/api/gateway', require('./routing/gateway/route').routes())
+router.use('/api/rooms', require('./routing/rooms/route').routes())
 router.use('/initCookie', require('./routing/initCookie/route').routes())
 app.use(router.routes())
 app.use(router.allowedMethods())
