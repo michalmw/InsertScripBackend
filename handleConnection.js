@@ -56,7 +56,7 @@ function handleUser(ws) {
         const obj = {
             gateId: ws.gateId,
             sessionId: ws.sessionId,
-            gateName: gatewayName.name,
+            gateName: (gatewayName.name || 'brak nazwy'),
             message: message,
             type: 'fromClient',
             timestamp: new Date()
