@@ -13,7 +13,7 @@ function handler(ws, req) {
         return
     }
     const cookie = cookieparser.parse(req.headers.cookie)
-    console.log('cookie', 'cookie')
+    console.log('cookie', cookie)
     if (!cookie) {
         ws.close()
         return
