@@ -1,12 +1,14 @@
 const Message = require('../messages/model')
 const fs = require('fs')
+const promisify = require('util').promisify
 
 module.exports.createSaveOrder = createSaveOrder
 function createSaveOrder() {
     return async (ctx) => {
 
         let message = await Message.findOne({ sessionId: ctx.session.id }).lean().exec()
-        await fs.writeFile(`../../upload/${ctx.request.body.name}.img`, new Buffer(ctx.request.body.content, "base64"))
+        const writeFile = promisify(fs.writeFile)
+        await writeFile(`../../upload/${ctx.request.body.name}`, new Buffer(ctx.request.body.content, "base64"))
         
         if (!message) throw 'Canot add file before first message'
 
