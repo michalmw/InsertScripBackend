@@ -63,19 +63,20 @@ function handleUser(ws) {
             }
             ws.send(JSON.stringify(obj))
         }
-    
+
 
     ws.on('message', async message => {
         let gatewayName = await Gateway.findById(ws.gateId).lean().exec()
         console.log('test robert', gatewayName);
-        const obj = {
+        let obj = {
             gateId: ws.gateId,
             sessionId: ws.sessionId,
-            gateName: (gatewayName.name || 'brak nazwy'),
             message: message,
             type: 'fromClient',
             timestamp: new Date()
         }
+
+        obj.gateName = (gatewayName.name || 'brak nazwy')
 
         let toSend = obj
         if (!(await Message.findOne({ sessionId: ws.sessionId }))) {
