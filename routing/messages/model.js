@@ -7,7 +7,9 @@ const Message = new Schema({
     timestamp: { type: Date, default: Date.now },
     sessionId: { type: Number, required: true },
     message: { required: true, type: String },
-    type: String
+    type: String,
+    name : String,
+    url : String
 },
     { strict: false })
 

@@ -13,6 +13,10 @@ accepts@^1.2.2:
     mime-types "~2.1.16"
     negotiator "0.6.1"
 
+addressparser@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/addressparser/-/addressparser-0.3.2.tgz#59873f35e8fcf6c7361c10239261d76e15348bb2"
+
 ajv@^4.9.1:
   version "4.11.8"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-4.11.8.tgz#82ffb02b29e662ae53bdc20af15947706739c536"
@@ -216,6 +220,10 @@ braces@^2.3.0:
 bson@~1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/bson/-/bson-1.0.4.tgz#93c10d39eaa5b58415cbc4052f3e53e562b0b72c"
+
+bufferjs@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/bufferjs/-/bufferjs-1.1.0.tgz#095ffa39c5e6b40a2178a1169c9effc584a73201"
 
 bytes@3.0.0:
   version "3.0.0"
@@ -536,6 +544,29 @@ ecc-jsbn@~0.1.1:
 ee-first@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
+
+emailjs-base64@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/emailjs-base64/-/emailjs-base64-1.1.4.tgz#392fa38cb6aa35dccd3af3637ffc14c1c7ce9612"
+
+emailjs-mime-codec@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/emailjs-mime-codec/-/emailjs-mime-codec-2.0.5.tgz#01ade26d7cf20248c75fdff473a5b6f7be1ea974"
+  dependencies:
+    emailjs-base64 "^1.1.4"
+    ramda "^0.25.0"
+    text-encoding "^0.6.4"
+
+emailjs@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/emailjs/-/emailjs-2.0.0.tgz#785b404b0e4ad83e5cdeb1978959e29a1e90f584"
+  dependencies:
+    addressparser "^0.3.2"
+    emailjs-mime-codec "^2.0.5"
+    moment "2.20.1"
+    starttls "1.0.1"
+  optionalDependencies:
+    bufferjs "1.1.0"
 
 error-inject@~1.0.0:
   version "1.0.0"
@@ -1377,6 +1408,10 @@ mixin-deep@^1.2.0:
   dependencies:
     minimist "0.0.8"
 
+moment@2.20.1:
+  version "2.20.1"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.20.1.tgz#d6eb1a46cbcc14a2b2f9434112c1ff8907f313fd"
+
 mongodb-core@3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/mongodb-core/-/mongodb-core-3.0.2.tgz#914896092dd45427d9a4f98a7997a0bfb81d163b"
@@ -2001,6 +2036,10 @@ sshpk@^1.7.0:
     jsbn "~0.1.0"
     tweetnacl "~0.14.0"
 
+starttls@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/starttls/-/starttls-1.0.1.tgz#e6081c25de6b178f5a75f8f271c1487449183b42"
+
 static-extend@^0.1.1:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/static-extend/-/static-extend-0.1.2.tgz#60809c39cbff55337226fd5e0b520f341f1fb5c6"
@@ -2110,6 +2149,10 @@ term-size@^1.2.0:
   resolved "https://registry.yarnpkg.com/term-size/-/term-size-1.2.0.tgz#458b83887f288fc56d6fffbfad262e26638efa69"
   dependencies:
     execa "^0.7.0"
+
+text-encoding@^0.6.4:
+  version "0.6.4"
+  resolved "https://registry.yarnpkg.com/text-encoding/-/text-encoding-0.6.4.tgz#e399a982257a276dae428bb92845cb71bdc26d19"
 
 thenify-all@^1.0.0:
   version "1.6.0"
