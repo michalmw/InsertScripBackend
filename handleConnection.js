@@ -123,7 +123,7 @@ function intersects(arr1, arr2) {
 }
 
 function filterGates(gates) {
-    return companyUsers.filter(ws => intersects(ws.gates, gates))
+    return companyUsers.filter(ws => intersects(ws.gateway, gates))
 }
 
 module.exports.handler = handler
