@@ -49,6 +49,7 @@ function handleUser(ws) {
         })
 
     ws.on('message', message => {
+      console.log('test Robert', ws);
         const obj = {
             gateId: ws.gateId,
             sessionId: ws.sessionId,
