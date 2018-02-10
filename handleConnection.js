@@ -91,7 +91,7 @@ function handleCompanyUser(ws) {
             }))
         })
 
-    const clientToSend = getByValue(users, ws.gateway, gateway)
+    const clientToSend = getByValue(users, ws.gateway, 'gateway')
 
     const obj = {
         type: 'online',
@@ -130,7 +130,7 @@ function handleCompanyUser(ws) {
                 type: 'online',
                 online: false
             }
-            const clientToSend = getByValue(users, ws.gateway, gateway)
+            const clientToSend = getByValue(users, ws.gateway, 'gateway')
             clientToSend.forEach(x => x.send(JSON.stringify(obj)))
         }
     })
