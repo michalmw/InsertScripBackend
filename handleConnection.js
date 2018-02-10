@@ -188,3 +188,10 @@ function filterGates(gates) {
 module.exports.handler = handler
 
 module.exports.logedInUsers = () => new Set(users.keys)
+
+module.exports.sendMessage = (message) => {
+    for (const userWs of filterGates([message.gateId])) {
+        userWs.send(JSON.stringify(messages))
+        console.log('sended to userId=', userWs.userId)
+    }
+}
