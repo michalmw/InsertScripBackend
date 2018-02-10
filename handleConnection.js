@@ -19,7 +19,7 @@ function handler(ws, req) {
         return
     }
     const session = JSON.parse(cookie['koa:sess'])
-    if (session.user && (session.user.type === 'user' || session.user.type === 'owner')) {
+    if (session.user && (session.user.type === 'user' || session.user.type === 'owner' || session.user.type === 'admin')) {
         ws.gateway = session.user.gateway
         console.log(ws.gateway)
         ws.userId = session.user._id
@@ -48,7 +48,8 @@ function handleUser(ws) {
             }))
         })
 
-    ws.on('message', async message => {
+    ws.on('message', message => {
+      console.log('test Robert', ws);
         const obj = {
             gateId: ws.gateId,
             sessionId: ws.sessionId,
@@ -106,6 +107,7 @@ function handleCompanyUser(ws) {
         online: true
     }
     clientToSend.forEach(x => {
+        console.log('login online')
         x.send(JSON.stringify(obj))
     })
 
@@ -138,7 +140,10 @@ function handleCompanyUser(ws) {
                 online: false
             }
             const clientToSend = getByValue(users, ws.gateway, 'gateway')
-            clientToSend.forEach(x => x.send(JSON.stringify(obj)))
+            clientToSend.forEach(x =>{
+                console.log('on close')
+                x.send(JSON.stringify(obj))
+            })
         }
     })
 
@@ -149,8 +154,8 @@ function getByValue(map, searchValue, field) {
     let res = []
     for (let [key, value] of map.entries()) {
         console.log('11111111111111111111111111111111111')
-        console.log(value)
         console.log(value[field])
+        console.log(value.gateway)
         console.log(searchValue)
         if (value && value[field] && searchValue)
             if (intersects(value[field], searchValue))
