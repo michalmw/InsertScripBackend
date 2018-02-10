@@ -21,6 +21,7 @@ function handler(ws, req) {
     const session = JSON.parse(cookie['koa:sess'])
     if (session.user && (session.user.type === 'user' || session.user.type === 'owner')) {
         ws.gateway = session.user.gateway
+        console.log(ws.gateway)
         ws.userId = session.user._id
         companyUsers.push(ws)
         handleCompanyUser(ws)
