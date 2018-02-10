@@ -25,11 +25,7 @@ module.exports.createGetOrders = createGetOrders
 function createGetOrders() {
     return async (ctx) => {
         if(ctx.session.user && ctx.session.user.type && ctx.session.user.type !== 'admin'){
-          let tab = []
-            ctx.body = await Company.findById(ctx.session.user.companyId).lean().exec().then(result => {
-              tab.push(result)
-              return tab
-            })
+            ctx.body = await Company.findById(ctx.session.user.companyId).lean().exec().then(result => await [result])
         }
         else {
             ctx.body = await Company.find().lean().exec()

@@ -10,6 +10,7 @@
     "chai": "^4.1.2",
     "chai-http": "^3.0.0",
     "cookie": "^0.3.1",
+    "emailjs": "^2.0.0",
     "isemail": "^3.1.1",
     "koa": "^2.4.1",
     "koa-bodyparser": "^4.2.0",

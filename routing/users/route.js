@@ -1,7 +1,7 @@
 const User = require('./model')
 const bcrypt = require('bcryptjs')
 const R = require('ramda')
-
+const server = require('../email')
 module.exports.hashPassword = hashPassword
 function hashPassword(password) {
     return bcrypt.genSalt().then(salt => bcrypt.hash(password, salt))
@@ -21,6 +21,13 @@ function createUpateUser() {
     return async (ctx) => {
         ctx.body = await User.findByIdAndUpdate(ctx.params.id, ctx.request.body, { new: true }).populate('companyId')
     }
+}
+
+module.exports.sendEmail = sendEmail
+function sendEmail() {
+  return async (ctx) => {
+    ctx.body = await server.sendmail('ziomal09bb@gmail.com', 'Nowe pytanie', ctx.request.body.email, `${ctx.request.body.name} pisze: ${ctx.request.body.text}`)
+  }
 }
 
 module.exports.createDeleteUser = createDeleteUser
@@ -56,8 +63,8 @@ const router = require('koa-router')()
 router
     .get('/', createGetUsers())
     .get('/:id', createGetByIdUser())
+    .post('/email', sendEmail())
     .post('/', createRegister())
     .put('/:id', createUpateUser())
     .delete('/:id', createDeleteUser())
 module.exports = router
-
