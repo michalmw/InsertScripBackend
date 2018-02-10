@@ -78,7 +78,7 @@ function handleUser(ws) {
         }
 
         obj.gateName = (gatewayName.name || 'brak nazwy')
-
+        console.log(obj);
         let toSend = obj
         if (!(await Message.findOne({ sessionId: ws.sessionId }))) {
             toSend = Object.assign(obj, { type: 'newRoom', name: ++ids })
