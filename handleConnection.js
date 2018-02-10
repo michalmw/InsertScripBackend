@@ -24,7 +24,6 @@ function handler(ws, req) {
         ws.userId = session.user._id
         companyUsers.push(ws)
         handleCompanyUser(ws)
-        console.log(companyUsers)
         console.log('company user connected')
     } else {
         const gateId = url.parse(req.url, true).query.gateId
@@ -32,7 +31,6 @@ function handler(ws, req) {
         ws.sessionId = session.id
         ws.gateId = gateId
         handleUser(ws, gateId)
-        console.log(users)
         console.log('sessionId=', session.id)
     }
 }
