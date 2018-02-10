@@ -49,7 +49,7 @@ function handleUser(ws) {
         })
 
     ws.on('message', message => {
-      console.log('test Robert', ws);
+        console.log('test Robert', ws);
         const obj = {
             gateId: ws.gateId,
             sessionId: ws.sessionId,
@@ -57,14 +57,14 @@ function handleUser(ws) {
             type: 'fromClient',
             timestamp: new Date()
         }
-        let message
+        let toSend = obj
         if (!(await Message.findOne({ sessionId: ws.sessionId }))) {
-            message = Object.assign(obj, { type: 'newRoom' })
+            toSend = Object.assign(obj, { type: 'newRoom' })
         }
 
         new Message(obj).save()
         for (const userWs of filterGates([ws.gateId])) {
-            userWs.send(JSON.stringify(obj))
+            userWs.send(JSON.stringify(toSend))
             console.log('sended to userId=', userWs.userId)
         }
     })
@@ -140,7 +140,7 @@ function handleCompanyUser(ws) {
                 online: false
             }
             const clientToSend = getByValue(users, ws.gateway, 'gateId')
-            clientToSend.forEach(x =>{
+            clientToSend.forEach(x => {
                 console.log('on close')
                 x.send(JSON.stringify(obj))
             })
