@@ -48,13 +48,17 @@ function handleUser(ws) {
             }))
         })
 
-    ws.on('message', message => {
+    ws.on('message', async message => {
         const obj = {
             gateId: ws.gateId,
             sessionId: ws.sessionId,
             message: message,
             type: 'fromClient',
             timestamp: new Date()
+        }
+        let message
+        if (!(await Message.findOne({ sessionId: ws.sessionId }))) {
+            message = Object.assign(obj, { type: 'newRoom' })
         }
 
         new Message(obj).save()
@@ -86,9 +90,9 @@ function handleCompanyUser(ws) {
         //     rooms: { $push: '$$ROOT' }
         // })
         .then(result => {
-          for(let i = 0; i < result.length; i++) {
-            result[i].name = i+1
-          }
+            for (let i = 0; i < result.length; i++) {
+                result[i].name = i + 1
+            }
             ws.send(JSON.stringify({
                 type: 'init',
                 rooms: result
@@ -128,8 +132,7 @@ function handleCompanyUser(ws) {
 
     ws.on('close', () => {
         companyUsers = companyUsers.filter(x => x !== ws)
-        if(!companyUsers.find(x => x.gateway === ws.gateway))
-        {
+        if (!companyUsers.find(x => x.gateway === ws.gateway)) {
             const obj = {
                 type: 'online',
                 online: false
@@ -149,9 +152,9 @@ function getByValue(map, searchValue, field) {
         console.log(value)
         console.log(value[field])
         console.log(searchValue)
-        if(value && value[field] && searchValue)
-        if(intersects(value[field],searchValue))
-            res.push(value)
+        if (value && value[field] && searchValue)
+            if (intersects(value[field], searchValue))
+                res.push(value)
     }
     return res
 
