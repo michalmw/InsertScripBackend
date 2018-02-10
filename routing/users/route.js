@@ -19,6 +19,12 @@ function createRegister() {
 module.exports.createUpateUser = createUpateUser
 function createUpateUser() {
     return async (ctx) => {
+        if (ctx.request.body.password && typeof ctx.request.body.password === 'string') {
+            ctx.request.body.password = await hashPassword(ctx.request.body.password)
+        } else {
+            delete ctx.request.body.password
+        }
+
         ctx.body = await User.findByIdAndUpdate(ctx.params.id, ctx.request.body, { new: true }).populate('companyId')
     }
 }
@@ -41,10 +47,14 @@ function createDeleteUser() {
 module.exports.createGetUsers = createGetUsers
 function createGetUsers() {
     return async (ctx) => {
-        console.log(ctx)
-        ctx.body = await User.find().populate('companyId')
-        console.log(ctx.body)
 
+        const actions = {
+            'user': () => User.find({ _id: ctx.session.user._id }).populate('companyId'),
+            'owner': () => User.find({ companyId: ctx.session.user.companyId }).populate('companyId'),
+            'admin': () => User.find().populate('companyId')
+        }
+        ctx.body = await actions[ctx.session.user.type]()
+        console.log(ctx)
     }
 }
 

@@ -49,6 +49,20 @@ function handleUser(ws) {
             }))
         })
 
+        if(companyUsers.find(x => x.gateway.indexOf(ws.gateId) !== -1)){
+            const obj = {
+                        type: 'online',
+                        online: true
+                    }
+                ws.send(JSON.stringify(obj))
+            }else{
+                const obj = {
+                        type: 'online',
+                        online: false
+                    }
+                ws.send(JSON.stringify(obj))
+            }
+
     ws.on('message', async message => {
         let gatewayName = (await Gateway.findById(ws.gateId).lean().exec()) || {}
         console.log('test robert', gatewayName);
@@ -115,7 +129,9 @@ function handleCompanyUser(ws) {
         const messageObj = JSON.parse(message)
         messageObj.type = 'fromUser'
 
-        new Message(messageObj).save()
+        const gateId = (await Message.findOne({ sessionId: messageObj.sessionId })).gateId
+
+        new Message(Object.assign(messageObj, { gateId })).save()
 
         for (const userWs of filterGates([messageObj.gateId])) {
             userWs.send(JSON.stringify(messageObj))

@@ -24,17 +24,19 @@ function createDeleteOrder() {
 module.exports.createGetOrders = createGetOrders
 function createGetOrders() {
     return async (ctx) => {
-        if(ctx.session.user && ctx.session.user.type && ctx.session.user.type !== 'admin'){
-            ctx.body = await Company.findById(ctx.session.user.companyId).lean().exec().then(result => await [result])
+
+        const action = {
+            'user' : () => [],
+            'owner' : () => Company.findById(ctx.session.user.companyId).lean().exec().then(result => [result]),
+            'admin' : () => Company.find().lean().exec()
         }
-        else {
-            ctx.body = await Company.find().lean().exec()
-        }
+
+        ctx.body = await action[ctx.session.user.type]()
     }
 }
 
-module.exports.createGetByIdOrder = createGetByIdOrder
-function createGetByIdOrder() {
+module.exports.createGetByIdCompany = createGetByIdCompany
+function createGetByIdCompany() {
     return async (ctx) => {
         ctx.body = await Company.findById(ctx.params.id)
         if (!ctx.body) throw new Error('tag not found')
@@ -45,7 +47,7 @@ const router = require('koa-router')()
 
 router
     .get('/', createGetOrders())
-    .get('/:id', createGetByIdOrder())
+    .get('/:id', createGetByIdCompany())
     .post('/', createSaveOrder())
     .put('/:id', createUpateOrder())
     .delete('/:id', createDeleteOrder())
