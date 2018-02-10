@@ -35,9 +35,13 @@ module.exports.createGetUsers = createGetUsers
 function createGetUsers() {
     return async (ctx) => {
         console.log(ctx)
-        ctx.body = await User.find().populate('companyId')
-        console.log(ctx.body)
-
+        if (ctx.session.user.type === 'user') {
+            ctx.body = await User.find({ _id: ctx.session.user._id }).populate('companyId')
+        } else if (ctx.session.user.type === 'owner') {
+            ctx.body = await User.find({ companyId: ctx.session.user.companyid }).populate('companyId')
+        } else if (ctx.session.user.type === 'admin') {
+            ctx.body = await User.find().populate('companyId')
+        }
     }
 }
 
