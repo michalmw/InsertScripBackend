@@ -3,7 +3,7 @@ const cookieparser = require("cookie")
 
 const Message = require('./routing/messages/model')
 
-const users = new Map
+const users = new Map()
 
 let companyUsers = []
 
@@ -19,7 +19,6 @@ function handler(ws, req) {
         return
     }
     const session = JSON.parse(cookie['koa:sess'])
-
     if (session.user && (session.user.type === 'user' || session.user.type === 'owner')) {
         ws.gateway = session.user.gateway
         ws.userId = session.user._id
@@ -53,7 +52,8 @@ function handleUser(ws) {
             gateId: ws.gateId,
             sessionId: ws.sessionId,
             message: message,
-            type: 'fromClient'
+            type: 'fromClient',
+            timestamp: new Date()
         }
 
         new Message(obj).save()
