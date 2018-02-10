@@ -39,7 +39,6 @@ function handler(ws, req) {
 }
 
 
-
 function handleUser(ws) {
 
     Message.find({ sessionId: ws.sessionId })
@@ -64,7 +63,7 @@ function handleUser(ws) {
 
         let toSend = obj
         if (!(await Message.findOne({ sessionId: ws.sessionId }))) {
-            toSend = Object.assign(obj, { type: 'newRoom', name: ++ids })
+            toSend = Object.assign(obj, { type: 'newRoom', name: ws.sessionId })
         }
 
         new Message(obj).save()
@@ -97,7 +96,7 @@ function handleCompanyUser(ws) {
         // })
         .then(result => {
             for (const res of result) {
-                res.name = ++ids
+                res.name = res._id
             }
             ws.send(JSON.stringify({
                 type: 'init',

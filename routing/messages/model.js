@@ -5,7 +5,7 @@ const ObjectId = mongoose.Types.ObjectId
 const Message = new Schema({
     gateId: { type: Schema.Types.ObjectId },
     timestamp: { type: Date, default: Date.now },
-    sessionId: { type: String, required: true },
+    sessionId: { type: Number, required: true },
     message: { required: true, type: String },
     type: String
 },
