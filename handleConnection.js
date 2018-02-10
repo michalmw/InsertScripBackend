@@ -4,6 +4,7 @@ const cookieparser = require("cookie")
 const Message = require('./routing/messages/model')
 const Gateway = require('./routing/gateway/model')
 
+const ObjectId = require('mongoose').Types.ObjectId
 const users = new Map()
 
 let companyUsers = []
@@ -83,7 +84,7 @@ function handleCompanyUser(ws) {
     // console.log(ws.gateway)
     Message.aggregate()
         .match({
-            gateId: { $in: ws.gateway }
+            gateId: { $in: ws.gateway.map(ObjectId) }
         })
         .group({
             _id: '$sessionId',
