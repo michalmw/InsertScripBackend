@@ -20,7 +20,7 @@ async function errorCatchMiddleware(ctx, next) {
         } else {
             if (err === "Session is not present")
                 ctx.status = 401
-             else
+            else
                 ctx.status = 400
             ctx.body = err
         }
@@ -28,7 +28,7 @@ async function errorCatchMiddleware(ctx, next) {
 }
 
 app.use(require('koa-bodyparser')())
-app.use(require('./corsMiddleware')(['http://localhost:4200', 'http://kordos.com', 'http://www.kordos.com', 'https://test-f801a.firebaseapp.com', 'https://www.test-f801a.firebaseapp.com']))
+app.use(require('./corsMiddleware')(['http://localhost:4200', 'http://kordos.com', 'http://www.kordos.com', 'https://test-f801a.firebaseapp.com', 'https://www.test-f801a.firebaseapp.com','https://includescript-8779f.firebaseapp.com']))
 app.use(errorCatchMiddleware)
 const session = require('koa-session')
 app.keys = ['secret o']
@@ -45,11 +45,16 @@ router.use('/logout', require('./routing/login/logout').routes())
 router.use('/api', require('./auth')) //jak sie sypie to tu 
 router.use('/api/user', require('./routing/users/route').routes())
 router.use('/api/company', require('./routing/company/route').routes())
+router.use('/api/file', require('./routing/file/route').routes())
 router.use('/api/gateway', require('./routing/gateway/route').routes())
 router.use('/api/rooms', require('./routing/rooms/route').routes())
 router.use('/initCookie', require('./routing/initCookie/route').routes())
 app.use(router.routes())
 app.use(router.allowedMethods())
+const serve = require('koa-static')
+
+app.use(serve(__dirname + '/upload'))
+
 module.exports = (dbUrl) => {
     return mongoose.connect(process.env.MONGODB_URI || dbUrl).then(x => {
         return connectToHttp
