@@ -105,10 +105,10 @@ function handleCompanyUser(ws) {
             console.log(`sended ${messageObj} to userId=`, userWs.userId)
         }
 
-        const user = users.get(messageObj.sesionId)
+        const user = users.get(messageObj.sessionId)
         if (user) {
             user.send(messageObj.message)
-            console.log(`sended ${messageObj.message} to userId=`, user.sesionId)
+            console.log(`sended ${messageObj.message} to userId=`, user.sessionId)
         }
     })
 
