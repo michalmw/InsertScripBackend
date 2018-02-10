@@ -6,7 +6,7 @@ const Counter = new Schema({
     counter: Number
 })
 
-const model = mongoose.model('Message', Counter)
+const model = mongoose.model('Counter', Counter)
 
 // module.exports = mongoose.model('Message', Counter)
 
