@@ -85,6 +85,9 @@ function handleCompanyUser(ws) {
         //     rooms: { $push: '$$ROOT' }
         // })
         .then(result => {
+          for(let i = 0; i < result.length; i++) {
+            result[i].name = 'ładna nazwa'
+          }
             ws.send(JSON.stringify({
                 type: 'init',
                 rooms: result
@@ -100,7 +103,7 @@ function handleCompanyUser(ws) {
     clientToSend.forEach(x => {
         x.send(JSON.stringify(obj))
     })
-    
+
     ws.on('message', async message => {
 
         const messageObj = JSON.parse(message)
@@ -125,7 +128,7 @@ function handleCompanyUser(ws) {
     ws.on('close', () => {
         companyUsers = companyUsers.filter(x => x !== ws)
         if(!companyUsers.find(x => x.gateway === ws.gateway))
-        {   
+        {
             const obj = {
                 type: 'online',
                 online: false
