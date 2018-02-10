@@ -16,10 +16,9 @@ function createSaveOrder(send) {
         obj.message = ' '
         obj.gateId = ctx.request.body.gateId
         obj.url = 'https://zniesmaczonyzbyszek.herokuapp.com/' + ctx.request.body.name
-        obj.newDate = new Date()
+        obj.timestamp = new Date()
 
         new Message(obj).save().catch(err => {
-            console.log('1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111')
             console.log(err)
         })
         send(obj)
