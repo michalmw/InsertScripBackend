@@ -5,7 +5,7 @@ const Counter = require('./model')
 
 router.get('/', async ctx => {
     if (!ctx.session.id) {
-        ctx.session.id = (await Counter.findByIdAndUpdate('counter', { $inc: { counter: 1, } }).exec()).counter
+        ctx.session.id = String((await Counter.findByIdAndUpdate('counter', { $inc: { counter: 1, } }).exec()).counter)
     }
     console.log(ctx.session.id)
     ctx.body = ctx.session.id

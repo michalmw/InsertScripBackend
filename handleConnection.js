@@ -10,22 +10,20 @@ const users = new Map()
 let companyUsers = []
 
 function handler(ws, req) {
+    console.log('head cookie', req.headers.cookie)
     if (!req.headers.cookie) {
         ws.close()
         return
     }
     const cookie = cookieparser.parse(req.headers.cookie)
-    // console.log('cookie', cookie)
+    console.log('cookie', cookie)
     if (!cookie) {
         ws.close()
         return
     }
-    
+
     const session = JSON.parse(cookie['koa:sess'])
-    if (!session.user) {
-      ws.close()
-      return
-    }
+
     if (session.user && (session.user.type === 'user' || session.user.type === 'owner' || session.user.type === 'admin')) {
         ws.gateway = session.user.gateway
         console.log(ws.gateway)
@@ -54,19 +52,19 @@ function handleUser(ws) {
             }))
         })
 
-        if(companyUsers.find(x => x.gateway.indexOf(ws.gateId) !== -1)){
-            const obj = {
-                        type: 'online',
-                        online: true
-                    }
-                ws.send(JSON.stringify(obj))
-            }else{
-                const obj = {
-                        type: 'online',
-                        online: false
-                    }
-                ws.send(JSON.stringify(obj))
-            }
+    if (companyUsers.find(x => x.gateway.indexOf(ws.gateId) !== -1)) {
+        const obj = {
+            type: 'online',
+            online: true
+        }
+        ws.send(JSON.stringify(obj))
+    } else {
+        const obj = {
+            type: 'online',
+            online: false
+        }
+        ws.send(JSON.stringify(obj))
+    }
 
     ws.on('message', async message => {
         let gatewayName = (await Gateway.findById(ws.gateId).lean().exec()) || {}
