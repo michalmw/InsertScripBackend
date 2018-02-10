@@ -8,7 +8,7 @@ const R = require('ramda')
 module.exports.getGateway = getGateway
 function getGateway() {
   return async (ctx) => {
-    ctx.body = await Gateway.find().populate('companyId, name').lean().exec()
+    ctx.body = await Gateway.find().populate('companyId', 'name').lean().exec()
   }
 }
 
