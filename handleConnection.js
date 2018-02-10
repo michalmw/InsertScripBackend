@@ -10,12 +10,13 @@ const users = new Map()
 let companyUsers = []
 
 function handler(ws, req) {
+    console.log('head cookie', req.headers.cookie)
     if (!req.headers.cookie) {
         ws.close()
         return
     }
     const cookie = cookieparser.parse(req.headers.cookie)
-    // console.log('cookie', cookie)
+    console.log('cookie', cookie)
     if (!cookie) {
         ws.close()
         return
