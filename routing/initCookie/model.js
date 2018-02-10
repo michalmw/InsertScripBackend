@@ -15,5 +15,5 @@ new model({
     _id: 'counter',
     counter: 0
 }).save(() => { })
-
+ 
 module.exports = model

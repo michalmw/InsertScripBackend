@@ -4,6 +4,7 @@ const cookieparser = require("cookie")
 const Message = require('./routing/messages/model')
 const Gateway = require('./routing/gateway/model')
 
+const ObjectId = require('mongoose').Types.ObjectId
 const users = new Map()
 
 let companyUsers = []
@@ -64,7 +65,7 @@ function handleUser(ws) {
             }
 
     ws.on('message', async message => {
-        let gatewayName = await Gateway.findById(ws.gateId).lean().exec()
+        let gatewayName = (await Gateway.findById(ws.gateId).lean().exec()) || {}
         console.log('test robert', gatewayName);
         const obj = {
             gateId: ws.gateId,
@@ -94,20 +95,15 @@ function handleUser(ws) {
 
 
 function handleCompanyUser(ws) {
-    // console.log(ws.gateway)
     Message.aggregate()
-        // .match({
-        //     gateId: { $in: ws.gateway }
-        // })
+        .match({
+            gateId: { $in: ws.gateway.map(ObjectId) }
+        })
         .group({
             _id: '$sessionId',
             gateId: { $first: '$gateId' },
             messages: { $push: '$$ROOT' }
         })
-        // .group({
-        //     _id: '$gateId',
-        //     rooms: { $push: '$$ROOT' }
-        // })
         .then(result => {
             for (const res of result) {
                 res.name = res._id
@@ -143,7 +139,7 @@ function handleCompanyUser(ws) {
 
         const user = users.get(messageObj.sessionId)
         if (user) {
-            user.send(messageObj.message)
+            user.send(JSON.stringify(messageObj))
             console.log(`sended ${messageObj.message} to userId=`, user.sessionId)
         }
     })
