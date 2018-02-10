@@ -6,7 +6,7 @@ function createSaveOrder() {
     return async (ctx) => {
 
         let message = await Message.findOne({ sessionId: ctx.session.id }).lean().exec()
-        await fs.writeFile(`../../upload/${ctx.body.name}.img`, new Buffer(ctx.request.body.content, "base64"))
+        await fs.writeFile(`../../upload/${ctx.request.body.name}.img`, new Buffer(ctx.request.body.content, "base64"))
         
         if (!message) throw 'Canot add file before first message'
 
