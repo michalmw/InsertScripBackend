@@ -51,7 +51,7 @@ function handleUser(ws) {
 
     ws.on('message', async message => {
         console.log('test Robert', ws);
-        let gatewayName = Gateway.findById(ws.gateId).lean().exec()
+        let gatewayName = return Gateway.findById(ws.gateId).lean().exec()
         const obj = {
             gateId: ws.gateId,
             sessionId: ws.sessionId,
