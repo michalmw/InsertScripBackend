@@ -20,7 +20,7 @@ async function errorCatchMiddleware(ctx, next) {
         } else {
             if (err === "Session is not present")
                 ctx.status = 401
-             else
+            else
                 ctx.status = 400
             ctx.body = err
         }
@@ -50,6 +50,10 @@ router.use('/api/rooms', require('./routing/rooms/route').routes())
 router.use('/initCookie', require('./routing/initCookie/route').routes())
 app.use(router.routes())
 app.use(router.allowedMethods())
+const serve = require('koa-static')
+
+app.use(serve(__dirname + '/upload'))
+
 module.exports = (dbUrl) => {
     return mongoose.connect(process.env.MONGODB_URI || dbUrl).then(x => {
         return connectToHttp
