@@ -60,6 +60,10 @@ function handleUser(ws) {
             type: 'fromClient',
             timestamp: new Date()
         }
+        let message
+        if (!(await Message.findOne({ sessionId: ws.sessionId }))) {
+            message = Object.assign(obj, { type: 'newRoom' })
+        }
 
         new Message(obj).save()
         for (const userWs of filterGates([ws.gateId])) {
@@ -90,22 +94,23 @@ function handleCompanyUser(ws) {
         //     rooms: { $push: '$$ROOT' }
         // })
         .then(result => {
-          for(let i = 0; i < result.length; i++) {
-            result[i].name = i+1
-          }
+            for (let i = 0; i < result.length; i++) {
+                result[i].name = i + 1
+            }
             ws.send(JSON.stringify({
                 type: 'init',
                 rooms: result
             }))
         })
 
-    const clientToSend = getByValue(users, ws.gateway, 'gateway')
+    const clientToSend = getByValue(users, ws.gateway, 'gateId')
 
     const obj = {
         type: 'online',
         online: true
     }
     clientToSend.forEach(x => {
+        console.log('login online')
         x.send(JSON.stringify(obj))
     })
 
@@ -132,14 +137,16 @@ function handleCompanyUser(ws) {
 
     ws.on('close', () => {
         companyUsers = companyUsers.filter(x => x !== ws)
-        if(!companyUsers.find(x => x.gateway === ws.gateway))
-        {
+        if (!companyUsers.find(x => x.gateway === ws.gateway)) {
             const obj = {
                 type: 'online',
                 online: false
             }
-            const clientToSend = getByValue(users, ws.gateway, 'gateway')
-            clientToSend.forEach(x => x.send(JSON.stringify(obj)))
+            const clientToSend = getByValue(users, ws.gateway, 'gateId')
+            clientToSend.forEach(x =>{
+                console.log('on close')
+                x.send(JSON.stringify(obj))
+            })
         }
     })
 
@@ -150,12 +157,12 @@ function getByValue(map, searchValue, field) {
     let res = []
     for (let [key, value] of map.entries()) {
         console.log('11111111111111111111111111111111111')
-        console.log(value)
         console.log(value[field])
+        console.log(value.gateId)
         console.log(searchValue)
-        if(value && value[field] && searchValue)
-        if(intersects(value[field],searchValue))
-            res.push(value)
+        if (value && value[field] && searchValue)
+            if (intersects(value[field], searchValue))
+                res.push(value)
     }
     return res
 
