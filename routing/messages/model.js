@@ -5,7 +5,7 @@ const Room = require ('../rooms/model')
 const Message = new Schema({
     gateId: { type: Schema.Types.ObjectId },
     timestamp: { type: Date, default: Date.now },
-    sessionId: { type: Number, required: true },
+    sessionId: { type: String, required: true },
     message: { required: true, type: String },
     type: String,
     name : String,
