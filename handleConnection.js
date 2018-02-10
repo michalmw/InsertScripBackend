@@ -2,6 +2,7 @@ const url = require('url')
 const cookieparser = require("cookie")
 
 const Message = require('./routing/messages/model')
+const Gateway = require('./routing/gateway/model')
 
 const users = new Map()
 
@@ -50,9 +51,11 @@ function handleUser(ws) {
 
     ws.on('message', message => {
       console.log('test Robert', ws);
-        const obj = {
+      let gatewayName = Gateway.findById(ws.gateId).lean().exec()
+       const obj = {
             gateId: ws.gateId,
             sessionId: ws.sessionId,
+            gateName: gatewayName.name,
             message: message,
             type: 'fromClient',
             timestamp: new Date()
