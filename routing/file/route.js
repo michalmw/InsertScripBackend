@@ -18,7 +18,8 @@ function createSaveOrder() {
         obj.url = 'https://zniesmaczonyzbyszek.herokuapp.com/' + ctx.request.body.name
 
         new Message(obj).save().catch(err => {
-            console.log()
+            console.log('1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111')
+            console.log(err)
         })
 
         ctx.body = {
