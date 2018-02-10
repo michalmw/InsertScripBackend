@@ -78,7 +78,7 @@ function handleUser(ws) {
             type: 'fromClient',
             timestamp: new Date()
         }
-
+        let toSend = obj
         if (!(await Message.findOne({ sessionId: ws.sessionId }))) {
             toSend = Object.assign(obj, { type: 'newRoom' })
         }
