@@ -21,7 +21,10 @@ function createUpateUser() {
     return async (ctx) => {
         if (ctx.request.body.password && typeof ctx.request.body.password === 'string') {
             ctx.request.body.password = await hashPassword(ctx.request.body.password)
+        } else {
+            delete ctx.request.body.password
         }
+
         ctx.body = await User.findByIdAndUpdate(ctx.params.id, ctx.request.body, { new: true }).populate('companyId')
     }
 }
