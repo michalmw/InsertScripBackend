@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const ObjectId = mongoose.Types.ObjectId
-
+const Room = require ('../rooms/model')
 const Message = new Schema({
     gateId: { type: Schema.Types.ObjectId },
     timestamp: { type: Date, default: Date.now },
