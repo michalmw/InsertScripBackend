@@ -1,4 +1,5 @@
 const Gateway = require('./model')
+const Messages = require('../messages/model')
 
 const router = require('koa-router')()
 
@@ -23,6 +24,13 @@ module.exports.addGateway = addGateway
     }
   }
 
+module.exports.addMess = addMess
+  function addMess() {
+    return async (ctx) => {
+      ctx.body = await new Messages(ctx.request.body).save()
+    }
+  }
+
 module.exports.putGateway = putGateway
   function putGateway() {
     return async (ctx) => {
@@ -40,6 +48,7 @@ router
     .get('/', getGateway())
     .get('/:id', getOneGateway())
     .post('/', addGateway())
+    .post('/addM', addMess())
     .put('/:id', putGateway())
     .delete('/:id', deleteGateway())
 
