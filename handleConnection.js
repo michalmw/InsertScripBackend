@@ -71,6 +71,7 @@ function handleUser(ws) {
         let obj = {
             gateId: ws.gateId,
             sessionId: ws.sessionId,
+            gateName = 'brak',
             message: message,
             type: 'fromClient',
             timestamp: new Date()
