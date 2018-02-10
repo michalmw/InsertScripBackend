@@ -13,7 +13,7 @@ function handler(ws, req) {
         return
     }
     const cookie = cookieparser.parse(req.headers.cookie)
-    console.log('cookie', cookie)
+    // console.log('cookie', cookie)
     if (!cookie) {
         ws.close()
         return
@@ -70,7 +70,7 @@ function handleUser(ws) {
 
 
 function handleCompanyUser(ws) {
-    console.log(ws.gateway)
+    // console.log(ws.gateway)
     Message.aggregate()
         // .match({
         //     gateId: { $in: ws.gateway }
@@ -133,7 +133,7 @@ function handleCompanyUser(ws) {
                 type: 'online',
                 online: false
             }
-            const clientToSend = getByValue(users, ws.gateway, gateway)
+            const clientToSend = getByValue(users, ws.gateway, 'gateway')
             clientToSend.forEach(x => x.send(JSON.stringify(obj)))
         }
     })
@@ -144,7 +144,7 @@ function getByValue(map, searchValue, field) {
 
     let res = []
     for (let [key, value] of map.entries()) {
-        if (value[field] === searchValue)
+        if(intersects(value[field],searchValue))
             res.push(value)
     }
     return res
