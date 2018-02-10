@@ -53,7 +53,7 @@ function handleUser(ws) {
             sessionId: ws.sessionId,
             message: message,
             type: 'fromClient',
-            timestamp: Date.now()
+            timestamp: new Date()
         }
 
         new Message(obj).save()
