@@ -7,10 +7,10 @@ function createSaveOrder() {
     return async (ctx) => {
 
         let message = await Message.findOne({ sessionId: ctx.session.id }).lean().exec()
+        if (!message) throw 'Canot add file before first message'
         const writeFile = promisify(fs.writeFile)
         await writeFile(`${__dirname}/../../upload/${ctx.request.body.name}`, new Buffer(ctx.request.body.content, "base64"))
         
-        if (!message) throw 'Canot add file before first message'
 
         let obj = {}
         obj.sessionId = ctx.session.id
