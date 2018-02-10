@@ -115,7 +115,9 @@ function handleCompanyUser(ws) {
         const messageObj = JSON.parse(message)
         messageObj.type = 'fromUser'
 
-        new Message(messageObj).save()
+        const gateId = (await Message.findOne({ sessionId: messageObj.sessionId })).gateId
+
+        new Message(Object.assign(messageObj, { gateId })).save()
 
         for (const userWs of filterGates([messageObj.gateId])) {
             userWs.send(JSON.stringify(messageObj))
