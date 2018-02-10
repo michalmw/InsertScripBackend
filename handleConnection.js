@@ -82,9 +82,9 @@ function handleUser(ws) {
 function handleCompanyUser(ws) {
     // console.log(ws.gateway)
     Message.aggregate()
-        // .match({
-        //     gateId: { $in: ws.gateway }
-        // })
+        .match({
+            gateId: { $in: ws.gateway }
+        })
         .group({
             _id: '$sessionId',
             gateId: { $first: '$gateId' },
