@@ -16,7 +16,7 @@ function createSaveOrder() {
         obj.gateId = ctx.request.body.gateId
         obj.url = 'https://zniesmaczonyzbyszek.herokuapp.com/' + ctx.request.body.name
 
-        new Message.save(obj)
+        new Message(obj).save()
 
         ctx.body = {
             url : obj.url,
