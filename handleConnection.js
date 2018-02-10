@@ -160,9 +160,9 @@ function getByValue(map, searchValue, field) {
         console.log(value[field])
         console.log(value.gateId)
         console.log(searchValue)
-        if (value && value[field] && searchValue)
-            if (intersects(value[field], searchValue))
-                res.push(value)
+        // if (value && value[field] && searchValue)
+        //     if (intersects(value[field], searchValue))
+        //         res.push(value)
     }
     return res
 
