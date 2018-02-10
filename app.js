@@ -41,11 +41,11 @@ wss.on('connection', connectionHandler.handler)
 
 router.use('/login', require('./routing/login/login').routes())
 router.use('/logout', require('./routing/login/logout').routes())
+router.use('/file', require('./routing/file/route').routes())
 
 router.use('/api', require('./auth')) //jak sie sypie to tu 
 router.use('/api/user', require('./routing/users/route').routes())
 router.use('/api/company', require('./routing/company/route').routes())
-router.use('/api/file', require('./routing/file/route').routes())
 router.use('/api/gateway', require('./routing/gateway/route').routes())
 router.use('/api/rooms', require('./routing/rooms/route').routes())
 router.use('/initCookie', require('./routing/initCookie/route').routes())
