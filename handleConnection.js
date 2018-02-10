@@ -156,7 +156,7 @@ function getByValue(map, searchValue, field) {
     let res = []
     for (let [key, value] of map.entries()) {
         if (value && value[field] && searchValue)
-            if (intersects(value[field], searchValue))
+            if (searchValue.some(x => x == value[field]))
                 res.push(value)
     }
     return res
