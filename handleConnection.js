@@ -91,6 +91,16 @@ function handleCompanyUser(ws) {
             }))
         })
 
+    const clientToSend = getByValue(users, ws.gateway, gateway)
+
+    const obj = {
+        type: 'online',
+        online: true
+    }
+    clientToSend.forEach(x => {
+        x.send(JSON.stringify(obj))
+    })
+    
     ws.on('message', async message => {
 
         const messageObj = JSON.parse(message)
@@ -114,7 +124,27 @@ function handleCompanyUser(ws) {
 
     ws.on('close', () => {
         companyUsers = companyUsers.filter(x => x !== ws)
+        if(!companyUsers.find(x => x.gateway === ws.gateway))
+        {   
+            const obj = {
+                type: 'online',
+                online: false
+            }
+            const clientToSend = getByValue(users, ws.gateway, gateway)
+            clientToSend.forEach(x => x.send(JSON.stringify(obj)))
+        }
     })
+
+}
+
+function getByValue(map, searchValue, field) {
+
+    let res = []
+    for (let [key, value] of map.entries()) {
+        if (value[field] === searchValue)
+            res.push(value)
+    }
+    return res
 
 }
 
