@@ -31,7 +31,7 @@ function createGetOrders() {
             'admin' : () => Company.find().lean().exec()
         }
 
-        ctx.body = action[ctx.session.user.type]()
+        ctx.body = await action[ctx.session.user.type]()
     }
 }
 
