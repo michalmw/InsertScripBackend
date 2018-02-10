@@ -100,7 +100,7 @@ function handleCompanyUser(ws) {
             }))
         })
 
-    const clientToSend = getByValue(users, ws.gateway, 'gateway')
+    const clientToSend = getByValue(users, ws.gateway, 'gateId')
 
     const obj = {
         type: 'online',
@@ -139,7 +139,7 @@ function handleCompanyUser(ws) {
                 type: 'online',
                 online: false
             }
-            const clientToSend = getByValue(users, ws.gateway, 'gateway')
+            const clientToSend = getByValue(users, ws.gateway, 'gateId')
             clientToSend.forEach(x =>{
                 console.log('on close')
                 x.send(JSON.stringify(obj))
@@ -155,7 +155,7 @@ function getByValue(map, searchValue, field) {
     for (let [key, value] of map.entries()) {
         console.log('11111111111111111111111111111111111')
         console.log(value[field])
-        console.log(value.gateway)
+        console.log(value.gateId)
         console.log(searchValue)
         if (value && value[field] && searchValue)
             if (intersects(value[field], searchValue))
