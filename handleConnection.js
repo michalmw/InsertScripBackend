@@ -20,7 +20,12 @@ function handler(ws, req) {
         ws.close()
         return
     }
+    
     const session = JSON.parse(cookie['koa:sess'])
+    if (!session.user) {
+      ws.close()
+      return
+    }
     if (session.user && (session.user.type === 'user' || session.user.type === 'owner' || session.user.type === 'admin')) {
         ws.gateway = session.user.gateway
         console.log(ws.gateway)

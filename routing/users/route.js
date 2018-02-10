@@ -66,7 +66,12 @@ function createGetByIdUser() {
     }
 }
 
-
+module.exports.sendPhoto = sendPhoto
+function sendPhoto() {
+    return async (ctx) => {
+        
+    }
+}
 
 const router = require('koa-router')()
 
@@ -74,6 +79,7 @@ router
     .get('/', createGetUsers())
     .get('/:id', createGetByIdUser())
     .post('/email', sendEmail())
+    .post('/photo', sendPhoto())
     .post('/', createRegister())
     .put('/:id', createUpateUser())
     .delete('/:id', createDeleteUser())
