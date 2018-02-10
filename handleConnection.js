@@ -9,7 +9,6 @@ const users = new Map()
 
 let companyUsers = []
 
-let ids = 0
 function handler(ws, req) {
     if (!req.headers.cookie) {
         ws.close()
@@ -126,11 +125,13 @@ function handleCompanyUser(ws) {
     })
 
     ws.on('message', async message => {
-
+        console.log('message', message)
         const messageObj = JSON.parse(message)
         messageObj.type = 'fromUser'
 
-        new Message(messageObj).save()
+        const gateId = (await Message.findOne({ sessionId: messageObj.sessionId })).gateId
+
+        new Message(Object.assign(messageObj, { gateId })).save()
 
         for (const userWs of filterGates([messageObj.gateId])) {
             userWs.send(JSON.stringify(messageObj))
