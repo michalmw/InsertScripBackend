@@ -9,7 +9,6 @@ const users = new Map()
 
 let companyUsers = []
 
-let ids = 0
 function handler(ws, req) {
     if (!req.headers.cookie) {
         ws.close()
@@ -112,7 +111,7 @@ function handleCompanyUser(ws) {
     })
 
     ws.on('message', async message => {
-
+        console.log('message', message)
         const messageObj = JSON.parse(message)
         messageObj.type = 'fromUser'
 
