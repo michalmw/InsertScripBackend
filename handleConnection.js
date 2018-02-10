@@ -49,35 +49,18 @@ function handleUser(ws) {
             }))
         })
 
-        if(companyUsers.find(x => x.gateway.indexOf(ws.gateId) !== -1)){
-            const obj = {
-                type: 'online',
-                online: true
-            }
-            ws.send(JSON.stringify(obj))
-        }else{
-            const obj = {
-                type: 'online',
-                online: false
-            }
-            ws.send(JSON.stringify(obj))
-        }
-
-
     ws.on('message', async message => {
         let gatewayName = await Gateway.findById(ws.gateId).lean().exec()
         console.log('test robert', gatewayName);
-        let obj = {
+        const obj = {
             gateId: ws.gateId,
             sessionId: ws.sessionId,
-            gateName: 'brak',
+            gateName: (gatewayName.name || 'brak nazwy'),
             message: message,
             type: 'fromClient',
             timestamp: new Date()
         }
 
-        obj.gateName = (gatewayName.name || 'brak nazwy')
-        console.log(obj);
         let toSend = obj
         if (!(await Message.findOne({ sessionId: ws.sessionId }))) {
             toSend = Object.assign(obj, { type: 'newRoom', name: ws.sessionId })
@@ -172,9 +155,13 @@ function getByValue(map, searchValue, field) {
 
     let res = []
     for (let [key, value] of map.entries()) {
-        if (value && value[field] && searchValue)
-            if (searchValue.some(x => x == value[field]))
-                res.push(value)
+        console.log('11111111111111111111111111111111111')
+        console.log(value[field])
+        console.log(value.gateId)
+        console.log(searchValue)
+        // if (value && value[field] && searchValue)
+        //     if (intersects(value[field], searchValue))
+        //         res.push(value)
     }
     return res
 
