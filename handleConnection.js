@@ -51,8 +51,8 @@ function handleUser(ws) {
         })
 
     ws.on('message', async message => {
-        console.log('test Robert', ws);
         let gatewayName = await Gateway.findById(ws.gateId).lean().exec()
+        console.log('test robert', gatewayName);
         const obj = {
             gateId: ws.gateId,
             sessionId: ws.sessionId,
@@ -160,9 +160,9 @@ function getByValue(map, searchValue, field) {
         console.log(value[field])
         console.log(value.gateId)
         console.log(searchValue)
-        if (value && value[field] && searchValue)
-            if (intersects(value[field], searchValue))
-                res.push(value)
+        // if (value && value[field] && searchValue)
+        //     if (intersects(value[field], searchValue))
+        //         res.push(value)
     }
     return res
 
