@@ -94,7 +94,7 @@ function handleCompanyUser(ws) {
             }))
         })
 
-    const clientToSend = getByValue(users, ws.gateway, gateway)
+    const clientToSend = getByValue(users, ws.gateway, 'gateway')
 
     const obj = {
         type: 'online',
